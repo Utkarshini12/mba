@@ -7,7 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
   return (
-    <div >
+    <div className='bg-light'>
      <Home />
     </div>
   );

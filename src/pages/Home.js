@@ -3,6 +3,12 @@ import Nav from "../components/Navbar";
 import Ds from '../assets/Dss.jpeg'
 import '../styles/home.css'
 import {getAllMovies} from '../api/home.js'
+import Slider from "../components/Slider";
+import Footer from "../components/Footer";
+
+import {CCarousel, CCarouselItem, CImage} from '@coreui/react'
+import movie from '../assets/movie.svg'
+
 
 function Home() {
     const [movieList, setMovieList] = useState([]);
@@ -13,6 +19,7 @@ function Home() {
         getAllMovies().then(function (response) {
                 if (response.status === 200) {                    
                     setMovieList(response.data);
+                    console.log(response.data);
                     setPageLoading(false);
                     
                 }
@@ -38,27 +45,33 @@ function Home() {
       }
       return (
         !pageLoading ? ( <>
+       
            <Nav movies={movieList.map((movie)=>movie.name)}  onMovieSelect={selectedMovie}/>
-           <div className="container mx-5 my-2">
+           <Slider />
+           <div className="container my-4">
                <p className="fw-bolder">Recomended Movies</p>
                <div className="row">
+                   
                    {
                     movieList.map((movie) =>(
-                        <div className="col d-flex h-200">
-                            <div className="card " style={{height: 20 + "rem", width: 15 + "rem"}}>
-                                <img src={movie.posterUrl} class="card-img-top" alt="..."/>
-                                <div className="bg-dark text-white py-2 top">
-                                <i class="bi bi-hand-thumbs-up-fill p-2 text-success">58k </i>
-                                {movie.name}
-                                
-                                </div>
+                        <div className="col-lg-3 col-xs-6 d-flex align-items-stretch my-2">
+                            <div className="card bg-dark shadow-lg" style={{width: 14 + "rem"}}>
+                                <img src={movie.posterUrl} class="card-img-top" alt="..." style={{height: '100%'}}/>
+                                <i class="bi bi-hand-thumbs-up-fill text-success px-2 ">58k </i>  
+                                <p className="text-white fw-bolder px-2">{movie.name}</p>                              
                             </div>
+                            
                         </div>
                     ))
                    }
                    
                </div>
+
+               <div className="text-center m-5">
+                   <img src={movie} />
+               </div>
            </div>
+          <Footer />
         </>
         ):
         <div>Fetching Movies from backend...</div>
